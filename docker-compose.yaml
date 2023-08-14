@@ -1,0 +1,10 @@
+version: '3'
+services:
+  storage:
+    container_name: weather
+    build: .
+    restart: unless-stopped
+    env_file:
+      - ./config.env
+    volumes:
+        - ./data:/data
