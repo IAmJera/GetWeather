@@ -32,17 +32,17 @@ func main() {
 func writeToFile(resp Response) {
 	file, err := os.Create("/data/weather.txt")
 	if err != nil {
-		log.Printf("Error: %s", err)
+		log.Printf("Create => %s", err)
 	}
 	defer func(file *os.File) {
 		if err := file.Close(); err != nil {
-			log.Printf("Error: %s", err)
+			log.Printf("file.Close => %s", err)
 		}
 	}(file)
 
 	output := fmt.Sprintf("%.1f°", math.Round(resp.Current.Temp))
 	if _, err := file.WriteString(output); err != nil {
-		log.Printf("Error: %s", err)
+		log.Printf("WriteString => %s", err)
 	}
 }
 
@@ -51,20 +51,20 @@ func getWeather() Response {
 		"&q=" + os.Getenv("CITY") + "&aqi=no"
 	resp, err := http.Get(query)
 	if err != nil {
-		log.Println(err)
+		log.Printf("Get=> %s", err)
 	}
 	if resp.StatusCode != 200 {
-		log.Printf("Error: %s", resp.Status)
+		log.Printf("StatusCode => %s", resp.Status)
 	}
 	defer func(Body io.ReadCloser) {
 		if err := Body.Close(); err != nil {
-			log.Printf("Error: %s", err)
+			log.Printf("Body.Close => %s", err)
 		}
 	}(resp.Body)
 
 	var response Response
 	if err := json.NewDecoder(resp.Body).Decode(&response); err != nil {
-		log.Printf("Error: %s", err)
+		log.Printf("Decode => %s", err)
 	}
 	return response
 }
