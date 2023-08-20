@@ -21,5 +21,5 @@ __You may change the `volumes` section in the `docker-compose.yaml` file.__
 
 ### Example output:
 ```
-22°
+22.0°
 ```
